@@ -41,33 +41,6 @@ class gets : RichTextBox
             }
 
         }
-        else if ((e.KeyCode & Keys.C) == Keys.C && e.Control)
-
-        {
-            e.Handled = true;
-            if (SelectionLength > 0)
-            {
-                Clipboard.SetText(SelectedText);
-            }
-        }
-
-        else if ((e.KeyCode & Keys.V) == Keys.V && e.Control)
-        {
-            e.Handled = true;
-            pos = SelectionStart;
-            Text = Text.Insert(SelectionStart, Clipboard.GetText());
-            Text = Text.Replace("\r\n", "\n");
-            SelectionStart = pos;
-
-        }
-        else if ((e.KeyCode & Keys.Z) == Keys.Z && e.Control)
-        {
-            if (undo.Count > 0)
-            {
-                e.Handled = true;
-                this.Text = undo[undo.Count - 1];
-            }
-        }
         else if ((e.KeyCode & Keys.R) == Keys.R && e.Control)
         {
                 e.Handled = true;
@@ -318,22 +291,32 @@ class gets : RichTextBox
             int i, j;
             ToolStripMenuItem bar = new ToolStripMenuItem("---------");
             item.Add(new List<ToolStripMenuItem>());
-            item[0].Add(new ToolStripMenuItem("ファイル"));
-            item[0].Add(new ToolStripMenuItem("新規"));
-            item[0].Add(new ToolStripMenuItem("開く"));
-            item[0].Add(new ToolStripMenuItem("保存"));
-            item[0].Add(new ToolStripMenuItem("上書き保存"));
-            item[0].Add(new ToolStripMenuItem("htmlに出力"));
-            item[0].Add(new ToolStripMenuItem("終了"));
+            item[0].Add(new ToolStripMenuItem("ファイル(&F)"));
+            item[0].Add(new ToolStripMenuItem("新規(&N)"));
+            item[0][1].ShortcutKeys = Keys.Control | Keys.N;
+            item[0].Add(new ToolStripMenuItem("開く(&O)"));
+            item[0][2].ShortcutKeys = Keys.Control | Keys.O;
+            item[0].Add(new ToolStripMenuItem("名前をつけて保存(&A)"));
+            item[0][3].ShortcutKeys = Keys.Control |Keys.Shift | Keys.S;
+            item[0].Add(new ToolStripMenuItem("上書き保存(&S)"));
+            item[0][4].ShortcutKeys = Keys.Control | Keys.S;
+            item[0].Add(new ToolStripMenuItem("htmlに出力(&H)"));
+            item[0][5].ShortcutKeys = Keys.Control | Keys.Shift | Keys.H;
+            item[0].Add(new ToolStripMenuItem("終了(&X)"));
             for (i = 1; i < item[0].Count; i++) item[0][0].DropDownItems.Add(item[0][i]);
             item.Add(new List<ToolStripMenuItem>());
-            item[1].Add(new ToolStripMenuItem("編集"));
-            item[1].Add(new ToolStripMenuItem("もとに戻す"));
-            item[1].Add(new ToolStripMenuItem("やり直し"));
+            item[1].Add(new ToolStripMenuItem("編集(&E)"));
+            item[1].Add(new ToolStripMenuItem("もとに戻す(&U)"));
+            item[1][1].ShortcutKeys = Keys.Control | Keys.Z;
+            item[1].Add(new ToolStripMenuItem("やり直し(&R)"));
+            item[1][2].ShortcutKeys = Keys.Control | Keys.Y;
             item[1].Add(bar);
-            item[1].Add(new ToolStripMenuItem("切り取り"));
-            item[1].Add(new ToolStripMenuItem("コピー"));
-            item[1].Add(new ToolStripMenuItem("貼り付け"));
+            item[1].Add(new ToolStripMenuItem("切り取り(&T)"));
+            item[1][4].ShortcutKeys = Keys.Control | Keys.X;
+            item[1].Add(new ToolStripMenuItem("コピー(&C)"));
+            item[1][5].ShortcutKeys = Keys.Control | Keys.C;
+            item[1].Add(new ToolStripMenuItem("貼り付け(&P)"));
+            item[1][6].ShortcutKeys = Keys.Control | Keys.V;
             for (i = 1; i < item[1].Count; i++) item[1][0].DropDownItems.Add(item[1][i]);
             /*
             item.Add(new List<ToolStripMenuItem>());
@@ -344,8 +327,8 @@ class gets : RichTextBox
             item[3].Add(new ToolStripMenuItem("戻る"));
             */
             item.Add(new List<ToolStripMenuItem>());
-            item[2].Add(new ToolStripMenuItem("ヘルプ"));
-            item[2].Add(new ToolStripMenuItem("アプリ概要"));
+            item[2].Add(new ToolStripMenuItem("ヘルプ(&H)"));
+            item[2].Add(new ToolStripMenuItem("アプリ概要(&A)"));
             item[2][0].DropDownItems.Add(item[2][1]);
             
             for (i = 0; i < item.Count; i++)
@@ -394,7 +377,8 @@ class gets : RichTextBox
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                File.WriteAllText(sfd.FileName, otp.DocumentText, System.Text.Encoding.GetEncoding(charcode));
+                File.WriteAllText(sfd.FileName, "<html>\r\n<title>"+fname+"</title>\r\n<body>\r\n"+otp.DocumentText+"</body>\r\n</html>", System.Text.Encoding.GetEncoding(charcode));
+
             }
         }
         public void savefile()
@@ -438,22 +422,22 @@ class gets : RichTextBox
             ToolStripMenuItem it = (ToolStripMenuItem)sender;
             switch (it.Text)
             {
-                case "終了":
+                case "終了(&X)":
                     this.Close();
                     break;
-                case "開く":
+                case "開く(&O)":
                     openfilemenu();
                     break;
-                case "保存":
+                case "名前をつけて保存(&A)":
                     savefile();
                     break;
-                case "htmlに出力":
+                case "htmlに出力(&H)":
                     savehtml();
                     break;
-                case "上書き保存":
+                case "上書き保存(&S)":
                     overwritesave();
                     break;
-                case "新規":
+                case "新規(&N)":
                     newfile();
                     break;
                 case "リロード":
@@ -463,27 +447,26 @@ class gets : RichTextBox
                     otp.DocumentText = tl.tlanslation(inp.Text, true, true);
 
                     break;
-                case "もとに戻す":
+                case "もとに戻す(&U)":
                     inp.Undo();
                     break;
-                case "やり直し":
+                case "やり直し(&R)":
                     inp.Redo();
-                    
                     break;
-                case "切り取り":
+                case "切り取り(&T)":
                     inp.Cut();
                     break;
-                case "コピー":
+                case "コピー(&C)":
                     inp.Copy();
                     break;
-                case "貼り付け":
+                case "貼り付け(&P)":
                     inp.Paste();
                     break;
                 case "斜体":
                     break;
                 case "傍線":
                     break;
-                case "アプリ概要":
+                case "アプリ概要(&A)":
                     infomation info = new infomation();
                     info.ShowDialog(this);
                     info.Dispose();

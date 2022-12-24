@@ -1,4 +1,4 @@
-# grurqMDwriter
+﻿# grurqMDwriter | by grurq (c)2022-
 C#で書かれた、簡易Markdownエディタです。  
 右側のビューアを見ながら、左側のテキストボックスでファイルを編集していきます。  
 
@@ -21,9 +21,9 @@ C#で書かれた、簡易Markdownエディタです。
 |ctrl+B|強い強調（テキスト指定時）|
 |ctrl+T|タブ挿入（テキスト指定時）|
 
-## 著作権
+## 著作権  
 
-このアプリはMITライセンスで頒布されます。
+このアプリはMITライセンスで頒布されます。  
 
 > The MIT License  
 > Copyright (c) 2022 grurq  
@@ -34,6 +34,6 @@ C#で書かれた、簡易Markdownエディタです。
 
 > ソフトウェアは「現状のまま」で、明示であるか暗黙であるかを問わず、何らの保証もなく提供されます。ここでいう保証とは、商品性、特定の目的への適合性、および権利非侵害についての保証も含みますが、それに限定されるものではありません。  
 > 作者または著作権者は、契約行為、不法行為、またはそれ以外であろうと、ソフトウェアに起因または関連し、あるいはソフトウェアの使用またはその他の扱いによって生じる一切の請求、損害、その他の義務について何らの責任も負わないものとします。   
-> <https://licenses.opensource.jp/MIT/MIT.html>
+> <https://licenses.opensource.jp/MIT/MIT.html>  
 > <https://licenses.opensource.jp/>  
-> <https://opensource.org/licenses/mit-license.php> 
+> <https://opensource.org/licenses/mit-license.php>  
