@@ -158,7 +158,7 @@ namespace MDtohtml
             for (i = 2; i >= 0; i--)
             {
                 h = i + 1;
-                matching = "(\\*){" + h.ToString() + "}";
+                matching = "(\\*|_){" + h.ToString() + "}";
                 if (underline) replaced[i] = Regex.Replace(replaced[i], "em>", "u>", RegexOptions.None);
                 if (bold) replaced[i] = Regex.Replace(replaced[i], "strong>", "b>", RegexOptions.None);
                 txt = Regex.Replace(txt, matching + @"(.*?)" + matching, replaced[i], RegexOptions.Multiline);
@@ -176,10 +176,12 @@ namespace MDtohtml
 
             string key = "";
 
+            
             txt = Regex.Replace(txt, "(\r\n```)(.*?)(\r\n```\r\n)", "<code><pre>\r\n$2</pre></code>\r\n", RegexOptions.Singleline);
             txt = Regex.Replace(txt, "(`)(.*?)(`)", "<code>$2</code>", RegexOptions.None);
 
-                MatchCollection match =cddic.Matches(txt);
+
+            MatchCollection match =cddic.Matches(txt);
 
             for(int i = 0; i < match.Count; i++)
             {
