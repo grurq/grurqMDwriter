@@ -158,7 +158,16 @@ namespace MDtohtml
             for (i = 2; i >= 0; i--)
             {
                 h = i + 1;
-                matching = "(\\*|_){" + h.ToString() + "}";
+                matching = "(\\*){" + h.ToString() + "}";
+                if (underline) replaced[i] = Regex.Replace(replaced[i], "em>", "u>", RegexOptions.None);
+                if (bold) replaced[i] = Regex.Replace(replaced[i], "strong>", "b>", RegexOptions.None);
+                txt = Regex.Replace(txt, matching + @"(.*?)" + matching, replaced[i], RegexOptions.Multiline);
+            }
+            //(\_\_)(.*?)(\_\_)
+            for (i = 2; i >= 0; i--)
+            {
+                h = i + 1;
+                matching = "(_){" + h.ToString() + "}";
                 if (underline) replaced[i] = Regex.Replace(replaced[i], "em>", "u>", RegexOptions.None);
                 if (bold) replaced[i] = Regex.Replace(replaced[i], "strong>", "b>", RegexOptions.None);
                 txt = Regex.Replace(txt, matching + @"(.*?)" + matching, replaced[i], RegexOptions.Multiline);

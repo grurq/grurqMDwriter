@@ -28,7 +28,7 @@ namespace MDwritercsharp
         {
             linkLabel1.LinkVisited = true;
             //ブラウザで開く
-            System.Diagnostics.Process.Start("https://grurq.github.io/");
+            System.Diagnostics.Process.Start("https://github.com/grurq/grurqMDwriter");
         }
     
     }

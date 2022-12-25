@@ -178,6 +178,7 @@ class gets : RichTextBox
             fonts = ft;
         }
              */
+        
         public bool underline;
         public bool bold;
         public int fontsize;
@@ -211,7 +212,7 @@ class gets : RichTextBox
         private MenuStrip menu;
         List<List<ToolStripMenuItem>> item = new List<List<ToolStripMenuItem>>();
 
-
+        
 
 
 
@@ -328,9 +329,11 @@ class gets : RichTextBox
             */
             item.Add(new List<ToolStripMenuItem>());
             item[2].Add(new ToolStripMenuItem("ヘルプ(&H)"));
+            item[2].Add(new ToolStripMenuItem("変換設定(&T)"));
             item[2].Add(new ToolStripMenuItem("アプリ概要(&A)"));
-            item[2][0].DropDownItems.Add(item[2][1]);
-            
+
+            for (i = 1; i < item[2].Count; i++) item[2][0].DropDownItems.Add(item[2][i]);
+
             for (i = 0; i < item.Count; i++)
             {
                 o.Items.Add(item[i][0]);
@@ -471,6 +474,11 @@ class gets : RichTextBox
                     info.ShowDialog(this);
                     info.Dispose();
                     break;
+                case "変換設定(&T)":
+                    settings set = new settings();
+                    set.ShowDialog(this);
+                    set.Dispose();
+                    break;
                 case "プロパティ":
                     break;
 
@@ -478,7 +486,7 @@ class gets : RichTextBox
         }
         public exe()
         {
-
+            MDwritercsharp.Properties.Settings.Default.Upgrade();
             Form fm = new Form();
             inp = setinp(new gets());
             otp = setotp(new outs());
@@ -500,11 +508,12 @@ class gets : RichTextBox
         }
         private void write(object sender, EventArgs e)
         {
+            
             gets tmp = (gets)sender;
             tlanslate tl = new tlanslate();
             Text = Text.Replace("\r\n", "\n");
             string text = tmp.Text.Replace("\n", "\r\n");
-            string input = tl.tlanslation(text, true, true);
+            string input = tl.tlanslation(text, MDwritercsharp.Properties.Settings.Default.underbar, MDwritercsharp.Properties.Settings.Default.bold);
 
             otp.DocumentText = input;
             
@@ -518,7 +527,7 @@ class gets : RichTextBox
         [STAThread]
         public static void Main()
         {
-
+            
             Application.Run(new exe());
 
 
