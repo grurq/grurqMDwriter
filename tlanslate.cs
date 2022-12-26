@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Security;
 namespace MDtohtml
 {
@@ -186,8 +187,8 @@ namespace MDtohtml
             string key = "";
 
             
-            txt = Regex.Replace(txt, "(\r\n```)(.*?)(\r\n```\r\n)", "<code><pre>\r\n$2</pre></code>\r\n", RegexOptions.Singleline);
-            txt = Regex.Replace(txt, "(`)(.*?)(`)", "<code>$2</code>", RegexOptions.None);
+            txt = Regex.Replace(txt, "(\r\n```\r\n)(.*?)(\r\n```\r\n)", "\r\n<code><pre>\r\n$2\r\n</pre></code>\r\n", RegexOptions.Singleline);
+            txt = Regex.Replace(txt, "(`)(.*?)(`)", "<code>\r$2\r</code>", RegexOptions.None);
 
 
             MatchCollection match =cddic.Matches(txt);
@@ -211,7 +212,20 @@ namespace MDtohtml
         {
             for (int i = 0; i < codes.Count(); i++)
             {
-                txt = Regex.Replace(txt, keys[i], codes[i], RegexOptions.Singleline);
+
+                if (Regex.IsMatch(codes[i], "(<code><pre>\r\n)(.*?)(\r\n</pre></code>)", RegexOptions.Singleline)) {
+                    codes[i] = Regex.Replace(codes[i], "(<code><pre>\r\n)(.*?)(\r\n</pre></code>)", "$2", RegexOptions.Singleline);
+                    
+                codes[i] = HttpUtility.HtmlEncode(codes[i]);
+                codes[i] = "<code><pre>\r\n" + codes[i] + "</pre></code>\r\n";
+            }else if (Regex.IsMatch(codes[i], "(<code>\r)(.*?)(\r</code>)", RegexOptions.None)) {
+                    codes[i] = Regex.Replace(codes[i], "(<code>\r)(.*?)(\r</code>)","$2", RegexOptions.None);
+                    codes[i] = HttpUtility.HtmlEncode(codes[i]);
+                    codes[i] = "<code>" + codes[i] + "</code>";
+
+                }
+
+                    txt = Regex.Replace(txt, keys[i], codes[i], RegexOptions.Singleline);
             }
         }
 
