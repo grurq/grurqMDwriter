@@ -26,7 +26,7 @@ class gets : RichTextBox
 
     protected override void OnKeyDown(KeyEventArgs e)
     {
-        int pos = 0;
+        
         if ((e.KeyCode & Keys.C) == Keys.C && e.Control && e.Shift)
         {
             if (SelectionLength > 0)
@@ -48,7 +48,13 @@ class gets : RichTextBox
         }
         else if ((e.KeyCode & Keys.L) == Keys.L && e.Control)
         {
-            e.Handled = true;
+
+            if (e.KeyCode == Keys.L)
+            {
+                e.Handled = true;
+                exe.putin(this, "\r\n---\r\n\r\n");
+
+            }
 
         }
         else if (((int)e.KeyCode & 219) == (int)219 && e.Control)// '}' 219
@@ -66,18 +72,6 @@ class gets : RichTextBox
                 e.Handled = true;
                 exe.putonhead(this, "1. ");
             }
-        }
-
-
-        else if ((e.KeyCode & Keys.H) == Keys.H && e.Control)
-        {
-            if (e.KeyCode == Keys.H)
-            {
-                e.Handled = true;
-                exe.putin(this, "\r\n---\r\n\r\n");
-
-            }
-
         }
         else if ((e.KeyCode & Keys.D1) == Keys.D1 && e.Control)
         {

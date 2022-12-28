@@ -16,7 +16,7 @@ exe.zipから実行ファイルをダウンロードしてください。
 |ctrl+Z|元に戻す|
 |ctrl+Y|やり直し|
 |ctrl+1～6|見出し #～######|
-|ctrl+H|水平線|
+|ctrl+L|水平線|
 |shift+ctrl+B|引用（テキスト指定時）|
 |shift+ctrl+C|コード|
 |ctrl+U|強調（テキスト指定時）|
