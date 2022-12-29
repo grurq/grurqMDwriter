@@ -46,5 +46,53 @@ namespace MDwritercsharp.Properties {
                 this["bold"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string searchword {
+            get {
+                return ((string)(this["searchword"]));
+            }
+            set {
+                this["searchword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string replaceword {
+            get {
+                return ((string)(this["replaceword"]));
+            }
+            set {
+                this["replaceword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool searchup {
+            get {
+                return ((bool)(this["searchup"]));
+            }
+            set {
+                this["searchup"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool bigandsmall {
+            get {
+                return ((bool)(this["bigandsmall"]));
+            }
+            set {
+                this["bigandsmall"] = value;
+            }
+        }
     }
 }

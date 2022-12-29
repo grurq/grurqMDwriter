@@ -8,7 +8,7 @@ using MDwritercsharp;
 
 // 参考 https://lets-csharp.com/textbox-undo/
 
-
+namespace MDwritercsharp { 
 class gets : RichTextBox
 {
     List<string> undo = new List<string>();
@@ -191,7 +191,7 @@ class gets : RichTextBox
 
 
     }
-    class exe : Form
+    public partial class exe : Form
     {
         public const int WIDTH = 800;
         public const int HEIGHT = 600;
@@ -204,6 +204,7 @@ class gets : RichTextBox
         private string charcode = "utf-8";
 
         private MenuStrip menu;
+        public search Search;
         List<List<ToolStripMenuItem>> item = new List<List<ToolStripMenuItem>>();
 
         
@@ -231,8 +232,10 @@ class gets : RichTextBox
 
             return o;
         }
+           // https://dobon.net/vb/dotnet/form/accessanotherformdata.html
 
-        public static void sandwich(gets o, string chars)
+
+            public static void sandwich(gets o, string chars)
         {
             if (o.SelectionLength > 0)
             {
@@ -478,10 +481,21 @@ class gets : RichTextBox
 
             }
         }
+
+        public void DoSearch(gets gets)
+            {
+
+            }
         public exe()
         {
             MDwritercsharp.Properties.Settings.Default.Upgrade();
             Form fm = new Form();
+            Search = new search();
+                
+            //テスト用
+            //Search.Show(this);
+            
+
             inp = setinp(new gets());
             otp = setotp(new outs());
             menu = setmenu(new MenuStrip());
@@ -496,10 +510,10 @@ class gets : RichTextBox
             this.MinimumSize = new System.Drawing.Size(WIDTH, HEIGHT);
             this.MaximumSize = new System.Drawing.Size(WIDTH, HEIGHT);
 
+               
 
 
-
-        }
+            }
         private void write(object sender, EventArgs e)
         {
             
@@ -528,4 +542,6 @@ class gets : RichTextBox
         }
 
     }
+}
+
 }

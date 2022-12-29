@@ -12,6 +12,7 @@ namespace MDwritercsharp
 {
     public partial class settings : Form
     {
+        
         public settings()
         {
             InitializeComponent();
