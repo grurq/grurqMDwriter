@@ -96,9 +96,8 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(84, 35);
             this.button1.TabIndex = 5;
-            this.button1.Text = "実行";
+            this.button1.Text = "実行(&F)";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // checkBox1
             // 
@@ -110,6 +109,7 @@
             this.checkBox1.Text = "大文字と小文字を区別する";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.checkBox1.CheckStateChanged += new System.EventHandler(this.checkBox1_CheckStateChanged);
             // 
             // search
             // 
@@ -126,6 +126,7 @@
             this.MinimizeBox = false;
             this.Name = "search";
             this.Text = "検索";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.search_FormClosing);
             this.Load += new System.EventHandler(this.search_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -141,7 +142,7 @@
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox checkBox1;
+        public System.Windows.Forms.Button button1;
     }
 }

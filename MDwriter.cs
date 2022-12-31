@@ -205,6 +205,7 @@ class gets : RichTextBox
 
         private MenuStrip menu;
         public search Search;
+        public replace Replace;
         List<List<ToolStripMenuItem>> item = new List<List<ToolStripMenuItem>>();
 
         
@@ -315,7 +316,13 @@ class gets : RichTextBox
             item[1][5].ShortcutKeys = Keys.Control | Keys.C;
             item[1].Add(new ToolStripMenuItem("貼り付け(&P)"));
             item[1][6].ShortcutKeys = Keys.Control | Keys.V;
-            for (i = 1; i < item[1].Count; i++) item[1][0].DropDownItems.Add(item[1][i]);
+            item[1].Add(bar);
+            item[1].Add(new ToolStripMenuItem("検索(&F)"));
+            item[1][8].ShortcutKeys = Keys.Control | Keys.F;
+            item[1].Add(new ToolStripMenuItem("置換(&H)"));
+            item[1][9].ShortcutKeys = Keys.Control | Keys.H;
+
+                for (i = 1; i < item[1].Count; i++) item[1][0].DropDownItems.Add(item[1][i]);
             /*
             item.Add(new List<ToolStripMenuItem>());
             item[2].Add(new ToolStripMenuItem("挿入"));
@@ -377,7 +384,7 @@ class gets : RichTextBox
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                File.WriteAllText(sfd.FileName, "<html>\r\n<title>"+fname+"</title>\r\n<body>\r\n"+otp.DocumentText+"</body>\r\n</html>", System.Text.Encoding.GetEncoding(charcode));
+                File.WriteAllText(sfd.FileName, "<!DOCTYPE html>\r\n<html lang=\"ja\">\r\n<head>\r\n<meta charset=\"utf-8\">\r\n<title>"+fname+"</title>\r\n</head>\r\n<body>\r\n"+otp.DocumentText+"</body>\r\n</html>", System.Text.Encoding.GetEncoding(charcode));
 
             }
         }
@@ -423,7 +430,8 @@ class gets : RichTextBox
             switch (it.Text)
             {
                 case "終了(&X)":
-                    this.Close();
+                        MDwriter_End();
+                        this.Close();
                     break;
                 case "開く(&O)":
                     openfilemenu();
@@ -460,9 +468,15 @@ class gets : RichTextBox
                     inp.Copy();
                     break;
                 case "貼り付け(&P)":
-                    inp.Paste();
+                    if(Clipboard.GetText().Length>0)inp.Paste();
                     break;
-                case "斜体":
+                case "検索(&F)":
+                        if (!Search.Visible&&!Replace.Visible)Search.Show(this);
+                        break;
+                case "置換(&H)":
+                        if (!Replace.Visible&&!Search.Visible)Replace.Show(this);
+                        break;
+                    case "斜体":
                     break;
                 case "傍線":
                     break;
@@ -482,18 +496,235 @@ class gets : RichTextBox
             }
         }
 
-        public void DoSearch(gets gets)
+            private void Find_Down(object sender,EventArgs e)
             {
+                RichTextBoxFinds fdoption = 0; //None
+                int spos = 0; //開始位置
+                int epos = 0;
+                int closepos = 0;
+                bool found = false;
+                if (Properties.Settings.Default.searchword != "")
+                {
+                    
+
+                    /* 条件設定
+                     * Findは
+                     * https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.forms.richtextbox.find?view=netframework-4.7.2#System_Windows_Forms_RichTextBox_Find_System_String_System_Int32_System_Int32_System_Windows_Forms_RichTextBoxFinds_
+                     * RichTextBoxFinds は
+                     * https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.forms.richtextboxfinds?view=netframework-4.7.2
+                     * 参照。
+                     */
+
+                    //大小文字区別
+                    if (!Properties.Settings.Default.bigandsmall)
+                    {
+                        fdoption += 4; // MatchCase
+                    }
+
+                        if (inp.SelectedText == Properties.Settings.Default.searchword)
+                        {
+                            inp.SelectionStart += inp.SelectionLength;
+                        }
+
+
+                        spos = inp.SelectionStart;
+                        epos = inp.Text.Length;
+
+
+
+
+
+
+
+                    inp.Focus();
+                    if ((closepos = inp.Find(Properties.Settings.Default.searchword, spos, epos, fdoption)) < 0)
+                    {
+
+                        MessageBox.Show(Properties.Settings.Default.searchword + "が見つかりません。", "検索", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        found = true;
+
+                    }
+                    else
+                    {
+
+                        inp.SelectionStart = closepos;
+
+                    }
+
+
+
+                }
 
             }
-        public exe()
+            private void Find(object sender, EventArgs e)
+
+            {
+            RichTextBoxFinds fdoption=0 ; //None
+            int spos = 0; //開始位置
+            int epos = 0;
+            int closepos = 0;
+            bool found = false;
+                        if (Properties.Settings.Default.searchword != "") {
+                    //fdoption += 2;//WholeWord
+
+                    /* 条件設定
+                     * Findは
+                     * https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.forms.richtextbox.find?view=netframework-4.7.2#System_Windows_Forms_RichTextBox_Find_System_String_System_Int32_System_Int32_System_Windows_Forms_RichTextBoxFinds_
+                     * RichTextBoxFinds は
+                     * https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.forms.richtextboxfinds?view=netframework-4.7.2
+                     * 参照。
+                     */
+
+                    //大小文字区別
+                    if (!Properties.Settings.Default.bigandsmall)
+                {
+                    fdoption +=4; // MatchCase
+                }
+
+                        if(!Properties.Settings.Default.searchup){
+                        
+                            if (inp.SelectedText == Properties.Settings.Default.searchword)
+                            {
+                                inp.SelectionStart += inp.SelectionLength;
+                            }
+                        
+                        
+                            spos = inp.SelectionStart;
+                            epos = inp.Text.Length;
+                            
+
+
+                        }else{
+                            spos = 0;
+                            epos = inp.SelectionStart;
+                            fdoption +=16; //Reverse.末尾から検索
+                        }
+                            
+                    
+
+                    inp.Focus();
+                    if ((closepos=inp.Find(Properties.Settings.Default.searchword, spos,epos, fdoption)) < 0)
+                    {
+
+                        MessageBox.Show(Properties.Settings.Default.searchword + "が見つかりません。","検索", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        found = true;
+
+                    }
+                    else {
+
+                        inp.SelectionStart = closepos;
+
+                    }
+                
+
+
+            }
+
+            }
+            private void ReplaceWord(object sender,EventArgs e)
+            {
+                RichTextBoxFinds fdoption = 0; //None
+                int spos = 0; //開始位置
+                int epos = 0;
+                int closepos = 0;
+                bool found = false;
+                if (Properties.Settings.Default.searchword != "")
+                {
+                    
+
+                    //大小文字区別
+                    if (!Properties.Settings.Default.bigandsmall)
+                    {
+                        fdoption += 4; // MatchCase
+                    }
+
+                        if (inp.SelectedText == Properties.Settings.Default.searchword)
+                        {
+                            inp.SelectionStart += inp.SelectionLength;
+                        }
+
+
+                        spos = inp.SelectionStart;
+                        epos = inp.Text.Length;
+
+
+
+
+
+
+
+                    inp.Focus();
+                    if ((closepos = inp.Find(Properties.Settings.Default.searchword, spos, epos, fdoption)) < 0)
+                    {
+
+                        MessageBox.Show(Properties.Settings.Default.searchword + "が見つかりません。", "検索", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        found = true;
+
+                    }
+                    else
+                    {
+                        string clips = Clipboard.GetText();
+                        inp.Cut();
+                        Clipboard.SetText(Properties.Settings.Default.replaceword);
+                        inp.Paste();
+                        //inp.ClearUndo();
+
+                        Clipboard.SetText(clips);
+
+                        inp.Select(inp.SelectionStart- Properties.Settings.Default.replaceword.Length, Properties.Settings.Default.replaceword.Length);
+
+                        
+
+                    }
+
+
+
+                }
+
+            }
+            private void ReplaceWordAll(object sender, EventArgs e)
+            {
+DialogResult result = MessageBox.Show("全ての文字列を置き換えます。この変更は取り消せません！\r\nよろしいですか？", "警告",
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                    if(result==DialogResult.OK)
+                    {
+                        inp.Text = inp.Text.Replace(Properties.Settings.Default.searchword, Properties.Settings.Default.replaceword);
+                        MessageBox.Show( "置換が終了しました。","すべて置換", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+
+                    }
+
+            }
+
+            private void MDwriter_End()
+            {
+                Search.Closed = true;
+                Replace.Closed = true;
+                Search.Close();
+                Replace.Close();
+            }
+            private void MDwriter_FormClosing(object sender, FormClosingEventArgs e)
+            {
+                MDwriter_End();
+                Application.Exit();             
+
+            }
+
+            public exe()
         {
             MDwritercsharp.Properties.Settings.Default.Upgrade();
             Form fm = new Form();
+                this.FormClosing += MDwriter_FormClosing;
             Search = new search();
-                
-            //テスト用
-            //Search.Show(this);
+            Search.ButtonOnSubForm.Click += Find;
+                //Search.Visible = false;
+            Replace = new replace();
+                Replace.ButtonOnSubForm1.Click += Find_Down;
+                Replace.ButtonOnSubForm2.Click += ReplaceWord;
+                Replace.ButtonOnSubForm3.Click += ReplaceWordAll;
+                //Replace.Visible = false;
+             //Replace.Show(this);
+
+             //Search.Show(this);
             
 
             inp = setinp(new gets());
@@ -530,9 +761,7 @@ class gets : RichTextBox
             tmp.Focus();
 
         }
-
-
-        [STAThread]
+            [STAThread]
         public static void Main()
         {
             

@@ -58,6 +58,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="replace.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="replace.Designer.cs">
+      <DependentUpon>replace.cs</DependentUpon>
+    </Compile>
     <Compile Include="search.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +105,9 @@
   <ItemGroup>
     <EmbeddedResource Include="infomation.resx">
       <DependentUpon>infomation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="replace.resx">
+      <DependentUpon>replace.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="search.resx">
       <DependentUpon>search.cs</DependentUpon>

@@ -27,12 +27,14 @@ namespace MDwritercsharp
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton2.Checked) Properties.Settings.Default.underbar = true;
+            
             Properties.Settings.Default.Save();
         }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton3.Checked) Properties.Settings.Default.bold = false;
+            
             Properties.Settings.Default.Save();
         }
 
